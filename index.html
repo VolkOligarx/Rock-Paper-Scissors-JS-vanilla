@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Камень, ножницы, бумага</title>
+  <style>
+    html { font-size: 10px; overflow: hidden; }
+    
+    *, *:before, *:after { box-sizing: inherit; }
+
+    body, ul, li  { margin: 0; padding: 0; }
+
+    li { list-style: none; }
+
+    p, h1, h2, h3, h4, h5, h6 { margin-top: 0; }
+
+    a { text-decoration: none; }
+
+    input { border-style: none; background: transparent; outline: none; }
+
+    button { padding: 0; background: none; border: none; outline: none; }
+ 
+
+    .app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        border-radius: 2px;
+        padding: 0.4rem 0.8rem 0.6rem;
+        background: rgba(57, 63, 84, 0.8);
+    }
+
+    .form:after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        z-index: 999;
+        height: 2px;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        background-position: 0% 0%;
+        background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+        background-size: 500% auto;
+        animation: gradient 3s linear infinite;
+   }
+
+    .input {
+        background: rgba(57, 63, 84, 0.8);
+        text-decoration: #BFD2FF;
+        flex-grow: 1;
+        color: #BFD2FF;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+        vertical-align: middle;
+    }
+
+    .loginBlock, .winsBlock, .losesBlock {
+        border: 0.5px solid rgb(209, 206, 206);
+        border-radius: 10px;
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .login, .wins, .loses {
+        text-decoration: #BFD2FF;
+        flex-grow: 1;
+        color: #ffffff;
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+        vertical-align: middle;
+        border: 0.5px solid rgb(143, 47, 143);
+        border-radius: 10px;
+        padding: 4px;
+        margin: 0px;
+    }
+    
+    .waitingText{
+        color: #BFD2FF;
+        animation: gradient 10s ease infinite;
+        font-size: 5vw;
+        line-height: 8vw;
+        border: none;
+        flex-grow: unset;
+    }
+    
+    .wins {
+        color: orange;
+    }
+
+    .loses {
+        color: red;
+    }
+
+    .button {
+        color:  #8b9bdb;
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+        vertical-align: middle;
+        transition: color .25s;
+    }
+
+    .button:hover {
+        color: #BFD2FF;
+    }
+
+    .startButton {
+        height: 50px;
+        width: 175px;
+        background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 10s ease infinite;
+        transform: translate3d(0, 0, 0);
+        color: rgb(109, 105, 105);
+    }
+
+    .choiceButton {
+        height: 4vh;
+        width: 20vw;
+        font-size: 1.7vw;
+        line-height: 2.5vw;
+    }
+
+    .gameBlock{
+        display: flex;
+        align-items: center;
+        gap: 3vw;
+    }
+
+    .paper, .rock, .scissors {
+        max-width: 25vw;
+    }
+
+    .waitingForEnemyTurn {
+        width: 40vw;
+    }
+
+
+    @keyframes blick {
+        95% {
+            opacity: 0.1;
+        }
+        95.5% {
+            opacity: 0.2;
+        }
+        96% {
+            opacity: 0.3;
+        }
+        96.5% {
+            opacity: 0.4;
+        }
+        97% {
+            opacity: 0.5;
+        }
+        97.5% {
+            opacity: 0.6;
+        }
+        98% {
+            opacity: 0.7;
+        }
+        98.5% {
+            opacity: 0.8;
+        }
+        99% {
+            opacity: 0.9;
+            background: url('./img/glitch.gif') no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        99.5% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="app"></div>
+  <script src="./js/backgrounds.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/lobby.js"></script>
+  <script src="./js/request.js"></script>
+  <script src="./js/waitingForGame.js"></script>
+  <script src="./js/battle.js"></script>
+  <script src="./js/enemyTurn.js"></script>
+  <script src="./js/win.js"></script>
+  <script src="./js/lose.js"></script>
+  <script>
+    const app = document.querySelector('.app');
+    const body = document.querySelector('body');
+    const backURL = 'https://skypro-rock-scissors-paper.herokuapp.com/';
+    let playerStatus
+    let lobbyInterval
+    let startData
+    let gameStatusInterval
+    let gameStatus
+    let yourTurn
+    let switcher = 0
+    window.application = {
+        keys: {},
+        blocks: {},
+        screens: {},
+        renderScreen: function(screenName) {
+            if (window.application.screens[`${screenName}`]) {
+                window.application.timers.forEach(element => {
+                    clearInterval()
+                });
+                while (app.firstChild) {
+                    app.removeChild(app.firstChild);
+                }
+                window.application.screens[`${screenName}`];
+            }
+            else {
+                console.log('No such screens detected');
+            }
+        },
+        renderBlock: function(blockName, container) {
+            if (window.application.blocks[`${blockName}`]) {
+                const x = window.application.blocks[`${blockName}`]
+                container.appendChild(x)
+            }
+            else {
+                console.log('No such blocks detected');
+            }
+        },
+    };
+
+    function remove(blockName) {
+    while (blockName.firstChild) {
+        blockName.removeChild(blockName.firstChild);
+            }
+    }
+    
+    if (window.innerWidth <= 1300) {
+        lossBackgrounds();
+        login();
+    }
+    else if (window.innerWidth >= 1301) {
+        widthBackgrounds();
+        login();
+    }
+    </script>
+</body>
+</html>
